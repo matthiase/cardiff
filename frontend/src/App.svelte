@@ -1,26 +1,38 @@
 <script>
-  import logo from './assets/images/logo-universal.png'
-  import {Greet} from '../wailsjs/go/main/App.js'
+  import logo from "./assets/images/logo-universal.png";
+  import { Greet } from "../wailsjs/go/main/App.js";
 
-  let resultText = "Please enter your name below 👇"
-  let name
+  let resultText = "Please enter your name below 👇";
+  let name;
 
-  function greet() {
-    Greet(name).then(result => resultText = result)
+  async function greet() {
+    //Greet(name).then(result => resultText = result)
+    try {
+      const result = await Greet(name);
+      resultText = `👋 ${result}`;
+    } catch (error) {
+      console.error("Error during greeting:", error);
+      resultText = "An error occurred while greeting.";
+    }
   }
 </script>
 
 <main>
-  <img alt="Wails logo" id="logo" src="{logo}">
+  <img alt="Wails logo" id="logo" src={logo} />
   <div class="result" id="result">{resultText}</div>
   <div class="input-box" id="input">
-    <input autocomplete="off" bind:value={name} class="input" id="name" type="text"/>
+    <input
+      autocomplete="off"
+      bind:value={name}
+      class="input"
+      id="name"
+      type="text"
+    />
     <button class="btn" on:click={greet}>Greet</button>
   </div>
 </main>
 
 <style>
-
   #logo {
     display: block;
     width: 50%;
@@ -75,5 +87,4 @@
     border: none;
     background-color: rgba(255, 255, 255, 1);
   }
-
 </style>
